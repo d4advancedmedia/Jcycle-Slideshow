@@ -3,6 +3,8 @@ WPJcycle
 Pros
 ----
 - Auto registers script
+- Seperate from Skivvy Development, means faster releases with less bugs.
+- can be used in non-Skivvy sites.
 - registers posttype
 - registers wp-admin icons
 - holds the script, icons, and register files
