@@ -7,7 +7,7 @@
 function register_skivvy_wpjcycle() {
 
 	// Register Script
-		wp_register_script( 'jcycle2', plugins_url( 'jquery.cycle2.min.js' , __FILE__ ), array( 'jquery' ), '1.7', true );
+		wp_register_script( 'jcycle2', plugins_url( '../../js/jquery.cycle2.min.js' , __FILE__ ), array( 'jquery' ), '1.7', true );
 
 	// Register Post type
 		register_post_type( 'jCycle_slider', array(
