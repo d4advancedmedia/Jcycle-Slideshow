@@ -77,4 +77,51 @@ function xautop_slider( $content ) {
 		return $content;
 
 } add_filter( 'the_content', 'xautop_slider', 0 );
+
+
+
+
+/*
+**
+**		Add Thumbnails in Manage Posts/Pages List
+**
+*/
+if ( !function_exists('AddThumbColumn') ) {
+
+	function skivvy_slider_AddThumbColumn($cols) {
+
+		$cols['slider_thumbnail'] = __('Thumbnail');
+
+		return $cols;
+	}
+
+	function skivvy_slider_AddThumbValue($column_name, $post_id) {
+
+			$width = (int) 60;
+			$height = (int) 60;
+
+			if ( 'slider_thumbnail' == $column_name ) :
+
+				// thumbnail of WP 2.9
+				$thumbnail_id = get_post_meta( $post_id, '_thumbnail_id', true );
+				// image from gallery
+				$attachments = get_children( array('post_parent' => $post_id, 'post_type' => 'attachment', 'post_mime_type' => 'image') );
+				if ($thumbnail_id)
+					$thumb = wp_get_attachment_image( $thumbnail_id, array($width, $height), true );
+				elseif ($attachments) {
+					foreach ( $attachments as $attachment_id => $attachment ) {
+						$thumb = wp_get_attachment_image( $attachment_id, array($width, $height), true );
+					}
+				}
+				if ( isset($thumb) && $thumb ) {
+					echo $thumb;
+				} else {
+					echo __('None');
+				}
+
+			endif;
+	}
+	add_filter( 'manage_jcycle_slider_posts_columns', 'skivvy_slider_AddThumbColumn' );
+	add_action( 'manage_jcycle_slider_posts_custom_column', 'skivvy_slider_AddThumbValue', 10, 2 );
+} 
 ?>
