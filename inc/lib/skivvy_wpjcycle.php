@@ -88,19 +88,19 @@ function xautop_slider( $content ) {
 */
 if ( !function_exists('AddThumbColumn') ) {
 
-	function skivvy_slider_AddThumbColumn($cols) {
+	function jcycle_slider_AddThumbColumn($cols) {
 
-		$cols['slider_thumbnail'] = __('Thumbnail');
+		$cols['jcycle_slider_thumbnail'] = __('Thumbnail');
 
 		return $cols;
 	}
 
-	function skivvy_slider_AddThumbValue($column_name, $post_id) {
+	function jcycle_slider_AddThumbValue($column_name, $post_id) {
 
 			$width = (int) 60;
 			$height = (int) 60;
 
-			if ( 'slider_thumbnail' == $column_name ) :
+			if ( 'jcycle_slider_thumbnail' == $column_name ) :
 
 				// thumbnail of WP 2.9
 				$thumbnail_id = get_post_meta( $post_id, '_thumbnail_id', true );
@@ -121,7 +121,7 @@ if ( !function_exists('AddThumbColumn') ) {
 
 			endif;
 	}
-	add_filter( 'manage_jcycle_slider_posts_columns', 'skivvy_slider_AddThumbColumn' );
-	add_action( 'manage_jcycle_slider_posts_custom_column', 'skivvy_slider_AddThumbValue', 10, 2 );
+	add_filter( 'manage_jcycle_slider_posts_columns', 'jcycle_slider_AddThumbColumn' );
+	add_action( 'manage_jcycle_slider_posts_custom_column', 'jcycle_slider_AddThumbValue', 10, 2 );
 } 
 ?>
