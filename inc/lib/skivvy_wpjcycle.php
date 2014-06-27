@@ -32,7 +32,7 @@ function register_skivvy_wpjcycle() {
 				'thumbnail',
 				#'excerpt',
 				#'trackbacks',
-				#'custom-fields',
+				'custom-fields',
 				#'comments',
 				'revisions',
 				#'page-attributes',
@@ -86,13 +86,19 @@ function xautop_slider( $content ) {
 **		Add Thumbnails in Manage Posts/Pages List
 **
 */
-if ( !function_exists('AddThumbColumn') ) {
 
-	function skivvy_slider_AddThumbColumn($cols) {
+	function skivvy_slider_AddThumbColumn($columns) {
 
-		$cols['slider_thumbnail'] = __('Thumbnail');
 
-		return $cols;
+			$new = array();
+			foreach($columns as $key => $title) {
+				if ($key == 'title') // Put the Thumbnail column before the Author column
+					$new['slider_thumbnail'] = __('Thumb', 'skivvy');
+				$new[ $key ] = $title;
+			}
+			return $new;
+
+
 	}
 
 	function skivvy_slider_AddThumbValue($column_name, $post_id) {
@@ -123,5 +129,4 @@ if ( !function_exists('AddThumbColumn') ) {
 	}
 	add_filter( 'manage_jcycle_slider_posts_columns', 'skivvy_slider_AddThumbColumn' );
 	add_action( 'manage_jcycle_slider_posts_custom_column', 'skivvy_slider_AddThumbValue', 10, 2 );
-} 
 ?>
