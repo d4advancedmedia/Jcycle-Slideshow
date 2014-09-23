@@ -1,4 +1,4 @@
-WPJcycle
+Skivvy Slideshow
 ========
 Pros
 ----
