@@ -148,7 +148,7 @@ function shortcode_skivvy_slideshow_video_bg_render( $atts ){
 
 	if ( $parsed_url['host'] == 'www.youtube.com' ) {
 	// YOUTUBE
-		$output .='<div id="player"></div>'.
+		$output .='<div id="slide-player"><div id="youtubevid-'.substr($parsed_url['query'], 2).'"></div></div>'.
 			'<script>'.
 				// 2. This code loads the IFrame Player API code asynchronously.
 				'var tag = document.createElement("script");'.
@@ -161,10 +161,12 @@ function shortcode_skivvy_slideshow_video_bg_render( $atts ){
 				//    after the API code downloads.
 				'var player;'.
 				'function onYouTubeIframeAPIReady() {'.
-					'player = new YT.Player("player", {'.
+					'player = new YT.Player(
+						"youtubevid-'.substr($parsed_url['query'], 2) . '", {'.
 						'height: "100%",'.
 						'width: "100%",'.
 						'videoId: "'.substr($parsed_url['query'] , 2). '",'.
+						'playerVars: {rel: 0, controls: 0},'.
 						'events: {'.
 							'"onReady" : onPlayerReady,'.
 							'"onStateChange": onPlayerStateChange'.
@@ -178,18 +180,22 @@ function shortcode_skivvy_slideshow_video_bg_render( $atts ){
 				// 5. The API calls this function when the player\'s state changes.
 				//    The function indicates that when playing a video (state=1),
 				//    the player should play for six seconds and then stop.
-				'var done = false;'.
+				#'var done = false;'.
 				'function onPlayerStateChange(event) {'.
 				    /*'if (event.data == YT.PlayerState.PLAYING && !done) {'.
 						//setTimeout(stopVideo, 6000);
 				        'done = true;'.
 				    '}'. //*/
 					'event.target.setVolume(0);'.
+					'if(event.data === YT.PlayerState.ENDED){'.
+						'event.target.playVideo();'.
+						//'event.target.loadVideoById("'.substr($parsed_url['path'], 1).'");
+					'}'.
 				'}'.
 			'</script>'
 		;
 	} elseif ( $parsed_url['host'] == 'youtu.be' ) {
-		$output .='<div id="slide-player"><div id="youtubevid"></div></div>'.
+		$output .='<div id="slide-player"><div id="youtubevid-'.substr($parsed_url['path'], 1).'"></div></div>'.
 			'<script>'.
 				// 2. This code loads the IFrame Player API code asynchronously.
 				'var tag = document.createElement("script");'.
@@ -202,17 +208,18 @@ function shortcode_skivvy_slideshow_video_bg_render( $atts ){
 				//    after the API code downloads.
 				'var player;'.
 				'function onYouTubeIframeAPIReady() {'.
-					'player = new YT.Player("player", {'.
+					'player = new YT.Player(
+						"youtubevid-'.substr($parsed_url['path'], 1). '", {'.
 						'height: "100%",'.
 						'width: "100%",'.
-						'videoId: "'. substr($parsed_url['path'] , 1). '",'.
+						'videoId: "'. substr($parsed_url['path'], 1). '",'.
+						'playerVars: {rel: 0},'.
 						'events: {'.
 							'"onReady" : onPlayerReady,'.
 							'"onStateChange": onPlayerStateChange'.
 						'}'.
 					'});'.
 				'}'.
-
 				// 4. The API will call this function when the video player is ready.
 				'function onPlayerReady(event) {event.target.setVolume(0);event.target.playVideo();}'.
 
@@ -225,6 +232,10 @@ function shortcode_skivvy_slideshow_video_bg_render( $atts ){
 						//setTimeout(stopVideo, 6000);
 				        'done = true;'.
 				    '}'. //*/
+					'if(event.data === YT.PlayerState.ENDED){'.
+						'event.target.playVideo();'.
+						//'event.target.loadVideoById("'.substr($parsed_url['path'], 1).'");
+					'}'.
 					'event.target.setVolume(0);'.
 				'}'.
 			'</script>'
