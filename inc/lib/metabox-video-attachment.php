@@ -10,14 +10,14 @@
 **		REGISTER
 **
 */
-function register_video_box( $post_type ) {
+function register_skivvy_slideshow_video_box( $post_type ) {
 
 	global $post;
 
 	add_meta_box (
 		'skivvy_video_box', // $id
 		'Video Background', // $title
-		'render_video_box', // $callback
+		'render_skivvy_slideshow_video_box', // $callback
 		'skivvy_slider', // $post_type
 		'normal', // $context
 		'default' // $priority
@@ -25,16 +25,16 @@ function register_video_box( $post_type ) {
 	);
 
 }
-add_action('add_meta_boxes', 'register_video_box' );
+add_action('add_meta_boxes', 'register_skivvy_slideshow_video_box' );
 
 
 
-function admin_scripts_video_box() {
+function admin_scripts_skivvy_slideshow_video_box() {
 	wp_enqueue_script('media-upload');
 	wp_enqueue_script('thickbox');
 	wp_enqueue_style('thickbox');
 }
-add_action('admin_enqueue_scripts', 'admin_scripts_video_box');
+add_action('admin_enqueue_scripts', 'admin_scripts_skivvy_slideshow_video_box');
 
 
 
@@ -47,7 +47,7 @@ add_action('admin_enqueue_scripts', 'admin_scripts_video_box');
 **		RENDER
 **
 */
-	function render_video_box () {
+	function render_skivvy_slideshow_video_box () {
 
 			global $post;
 			$video_box_data = get_post_meta( $post->ID );
@@ -98,7 +98,7 @@ add_action('admin_enqueue_scripts', 'admin_scripts_video_box');
 **		SAVE
 **
 */
-	function save_video_box ( $post_id, $post ) {
+	function save_skivvy_slideshow_video_box ( $post_id, $post ) {
 			$is_autosave = wp_is_post_autosave( $post_id );
 			$is_revision = wp_is_post_revision( $post_id );
 			$is_valid_nonce = ( isset( $_POST[ 'skivvy_video_box_nonce' ] ) && wp_verify_nonce( $_POST[ 'skivvy_video_box_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
@@ -110,7 +110,7 @@ add_action('admin_enqueue_scripts', 'admin_scripts_video_box');
 			//update_post_meta($post_id, $meta_key, $meta_value, $prev_value)
 			update_post_meta( $post_id, "_video_bg_url", sanitize_text_field( $_POST["_video_bg_url"] ) );
 	}
-	add_action('save_post', 'save_video_box', 10, 2 );
+	add_action('save_post', 'save_skivvy_slideshow_video_box', 10, 2 );
 
 
 
@@ -128,7 +128,7 @@ add_action('admin_enqueue_scripts', 'admin_scripts_video_box');
 
 
 
-/* http://demosthenes.info/blog/777/Create-Fullscreen-HTML5-Page-Background-Video
+// http://demosthenes.info/blog/777/Create-Fullscreen-HTML5-Page-Background-Video
 // div style="position: fixed; z-index: -99; width: 100%; height: 100%">
 //  <iframe frameborder="0" height="100%" width="100%"
 //    src="https://youtube.com/embed/ID?autoplay=1&controls=0&showinfo=0&autohide=1" allowfullscreen volume="0">
@@ -136,51 +136,105 @@ add_action('admin_enqueue_scripts', 'admin_scripts_video_box');
 // </div>
 // https://productforums.google.com/forum/#!topic/youtube/XS5_P_9OXCo
 // Well, the volume="0" no longer seems to work but the code below does:
- <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-    <div id="player"></div>
-    <script>
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
+// 	 <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
 
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+function shortcode_skivvy_slideshow_video_bg_render( $atts ){
 
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '195',
-          width: '260',
-          videoId: 'h3P1OR9gg2Y',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
+	global $post;
+	$video_url = get_post_meta( $post->ID, '_video_bg_url', TRUE );
+	$parsed_url = parse_url( $video_url );
+	$output = '';
+	$output = '<pre style="display:none;">'.print_r($parsed_url ,TRUE).'</pre>';
 
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-           event.target.setVolume(0);
-       event.target.playVideo();
-      }
+	if ( $parsed_url['host'] == 'www.youtube.com' ) {
+	// YOUTUBE
+		$output .='<div id="player"></div>'.
+			'<script>'.
+				// 2. This code loads the IFrame Player API code asynchronously.
+				'var tag = document.createElement("script");'.
 
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-    //      setTimeout(stopVideo, 6000);
-                  done = true;
-        }
-           event.target.setVolume(0);
-      }
-    </script>
-*/
+				'tag.src = "https://www.youtube.com/iframe_api";'.
+				'var firstScriptTag = document.getElementsByTagName("script")[0];'.
+				'firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);'.
 
+				// 3. This function creates an <iframe> (and YouTube player)
+				//    after the API code downloads.
+				'var player;'.
+				'function onYouTubeIframeAPIReady() {'.
+					'player = new YT.Player("player", {'.
+						'height: "195",'.
+						'width: "260",'.
+						'videoId: "'.substr($parsed_url['query'] , 2). '",'.
+						'events: {'.
+							'"onReady" : onPlayerReady,'.
+							'"onStateChange": onPlayerStateChange'.
+						'}'.
+					'});'.
+				'}'.
+
+				// 4. The API will call this function when the video player is ready.
+				'function onPlayerReady(event) {event.target.setVolume(0);event.target.playVideo();}'.
+
+				// 5. The API calls this function when the player\'s state changes.
+				//    The function indicates that when playing a video (state=1),
+				//    the player should play for six seconds and then stop.
+				'var done = false;'.
+				'function onPlayerStateChange(event) {'.
+				    /*'if (event.data == YT.PlayerState.PLAYING && !done) {'.
+						//setTimeout(stopVideo, 6000);
+				        'done = true;'.
+				    '}'. //*/
+					'event.target.setVolume(0);'.
+				'}'.
+			'</script>'
+		;
+	} elseif ( $parsed_url['host'] == 'youtu.be' ) {
+		$output .='<div id="slide-player"><div id="youtubevid"></div></div>'.
+			'<script>'.
+				// 2. This code loads the IFrame Player API code asynchronously.
+				'var tag = document.createElement("script");'.
+
+				'tag.src = "https://www.youtube.com/iframe_api";'.
+				'var firstScriptTag = document.getElementsByTagName("script")[0];'.
+				'firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);'.
+
+				// 3. This function creates an <iframe> (and YouTube player)
+				//    after the API code downloads.
+				'var player;'.
+				'function onYouTubeIframeAPIReady() {'.
+					'player = new YT.Player("player", {'.
+						'height: "100%",'.
+						'width: "100%",'.
+						'videoId: "'. substr($parsed_url['path'] , 1). '",'.
+						'events: {'.
+							'"onReady" : onPlayerReady,'.
+							'"onStateChange": onPlayerStateChange'.
+						'}'.
+					'});'.
+				'}'.
+
+				// 4. The API will call this function when the video player is ready.
+				'function onPlayerReady(event) {event.target.setVolume(0);event.target.playVideo();}'.
+
+				// 5. The API calls this function when the player\'s state changes.
+				//    The function indicates that when playing a video (state=1),
+				//    the player should play for six seconds and then stop.
+				'var done = false;'.
+				'function onPlayerStateChange(event) {'.
+				    /*'if (event.data == YT.PlayerState.PLAYING && !done) {'.
+						//setTimeout(stopVideo, 6000);
+				        'done = true;'.
+				    '}'. //*/
+					'event.target.setVolume(0);'.
+				'}'.
+			'</script>'
+		;
+	} else {
+		$output .= '<video src="'. $video_url .'" autoplay loop>Your browser does not support the <code>video</code> element.</video>';
+	}
+	return $output;
+}
+add_shortcode ( 'video_bg', 'shortcode_skivvy_slideshow_video_bg_render');
 
 
 
