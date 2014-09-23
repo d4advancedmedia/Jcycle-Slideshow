@@ -162,8 +162,8 @@ function shortcode_skivvy_slideshow_video_bg_render( $atts ){
 				'var player;'.
 				'function onYouTubeIframeAPIReady() {'.
 					'player = new YT.Player("player", {'.
-						'height: "195",'.
-						'width: "260",'.
+						'height: "100%",'.
+						'width: "100%",'.
 						'videoId: "'.substr($parsed_url['query'] , 2). '",'.
 						'events: {'.
 							'"onReady" : onPlayerReady,'.
