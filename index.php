@@ -13,8 +13,8 @@ include ('inc/lib/metabox-video-attachment.php');
 function skivvy_admin_slideshow_style() {
 
 	// Styles
-	wp_register_style( 'skivvy_admin_style', plugins_url( '/inc/admin/admin.css' , __FILE__ ), false, skinfo('Version'), 'screen' );
-	wp_enqueue_style( 'skivvy_admin_style' );
+	wp_register_style( 'skivvy_admin_slideshow_style', plugins_url( '/inc/admin/admin.css' , __FILE__ ), false, skinfo('Version'), 'screen' );
+	wp_enqueue_style( 'skivvy_admin_slideshow_style' );
 
 
 }
