@@ -129,4 +129,32 @@ function skivvy_slider_AddThumbValue($column_name, $post_id) {
 add_action( 'manage_skivvy_slider_posts_custom_column', 'skivvy_slider_AddThumbValue', 10, 6 );
 
 
+// Slideshow shortcode
+	add_shortcode('slideshow','shortcode_slideshow');
+	add_shortcode('slide','shortcode_slide');
+	function shortcode_slideshow( $atts, $content = null ) {
+			wp_enqueue_script('jcycle2');
+			extract( shortcode_atts( array(
+				'time' => '4000'
+			), $atts ) );
+			$output = '<div class="cycle-slideshow" style="position:relative;" data-cycle-slides=".cycle-slide" data-timeout="' . $time . '" >';
+				$output .= apply_filters( 'the_content' , $content);
+			$output .= '</div>';
+			return $output;
+
+	}
+	function shortcode_slide( $atts, $content = null ) {
+			extract( shortcode_atts( array(
+				'img' => ''
+			), $atts ) );
+
+			// SLIDE
+				if ( $img != '' ) {
+					$background_image = 'background-image:url(\'' . $img . '\');';
+				}
+				$output = '<div class="cycle-slide slide-' . get_the_ID() . '" style="position:absolute;' . $background_image . '">';
+					$output .= apply_filters( 'the_content' , $content);
+				$output .= '</div>';
+			return $output;
+	}
 ?>
