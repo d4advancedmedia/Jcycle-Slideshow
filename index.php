@@ -1,9 +1,11 @@
 <?php
 /*
 	Plugin Name: Cycle 2 Slideshow
-	Plugin URI: https://github.com/atelierabbey/WPJcycle
+	Plugin URI: https://github.com/d4advancedmedia/Slideshow
+	GitHub Theme URI: https://github.com/d4advancedmedia/Slideshow
+	GitHub Branch: master
 	Description: A simple slider plugin - based on Malsup's Cycle2 http://jquery.malsup.com/cycle2/.
-	Version: 7Jan15
+	Version: 17Aug15
 	Author: D4 Adv. Media
 	License: GPL2
 */
