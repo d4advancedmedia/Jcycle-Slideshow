@@ -1,10 +1,10 @@
 <?php
 /*
-	Plugin Name: Skivvy Slideshow
+	Plugin Name: Cycle 2 Slideshow
 	Plugin URI: https://github.com/atelierabbey/WPJcycle
 	Description: A simple slider plugin - based on Malsup's Cycle2 http://jquery.malsup.com/cycle2/.
 	Version: 7Jan15
-	Author: Grayson A.C. Laramore
+	Author: D4 Adv. Media
 	License: GPL2
 */
 include ('inc/lib/skivvy_slideshow.php');
