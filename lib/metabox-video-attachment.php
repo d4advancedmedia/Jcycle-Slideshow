@@ -129,7 +129,7 @@ add_action('admin_enqueue_scripts', 'admin_scripts_skivvy_slideshow_video_box');
 
 
 // http://demosthenes.info/blog/777/Create-Fullscreen-HTML5-Page-Background-Video
-// div style="position: fixed; z-index: -99; width: 100%; height: 100%">
+// <div style="position: fixed; z-index: -99; width: 100%; height: 100%">
 //  <iframe frameborder="0" height="100%" width="100%"
 //    src="https://youtube.com/embed/ID?autoplay=1&controls=0&showinfo=0&autohide=1" allowfullscreen volume="0">
 //  </iframe>
