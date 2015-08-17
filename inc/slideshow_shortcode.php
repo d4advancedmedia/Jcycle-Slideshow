@@ -16,8 +16,9 @@
 	}
 	function register_d4slideshow_slide( $atts, $content = null ) {
 		$attr = shortcode_atts( array(
-			'img' => '',
+			'img'   => '',
 			'style' => '',
+			'class' => '',
 			'autop' => 'true'
 		), $atts );
 		// SLIDE
@@ -25,7 +26,7 @@
 			$background_image = 'background-image:url(\'' . $attr['img'] . '\');';
 		}
 
-		$output = '<div class="cycle-slide" style="position:absolute;' . $background_image . ' ' . $attr['style'] .'">';
+		$output = '<div class="cycle-slide '. $attr['class'] . '" style="position:absolute;' . $background_image . ' ' . $attr['style'] .'">';
 			$output .= '<div class="cycle-content">';
 				$output .= '<div class="page-wrapper">';
 					if ( $attr['autop'] == 'true' ) {
