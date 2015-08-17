@@ -1,4 +1,4 @@
-<?php #17Aug15
+<?php #17Aug15a
 
 // Register shortcode
 	add_shortcode('slideshow','register_d4slideshow_slideshow');
