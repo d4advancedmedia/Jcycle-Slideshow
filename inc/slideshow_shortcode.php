@@ -25,7 +25,7 @@
 			$background_image = 'background-image:url(\'' . $attr['img'] . '\');';
 		}
 
-		$output = '<div class="cycle-slide slide-' . get_the_ID() . '" style="position:absolute;' . $background_image . ' ' . $attr['style'] .'">';
+		$output = '<div class="cycle-slide" style="position:absolute;' . $background_image . ' ' . $attr['style'] .'">';
 			$output .= '<div class="cycle-content">';
 				$output .= '<div class="page-wrapper">';
 					if ( $attr['autop'] == 'true' ) {
