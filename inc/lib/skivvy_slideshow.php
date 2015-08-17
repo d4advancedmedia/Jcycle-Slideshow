@@ -129,32 +129,45 @@ function skivvy_slider_AddThumbValue($column_name, $post_id) {
 add_action( 'manage_skivvy_slider_posts_custom_column', 'skivvy_slider_AddThumbValue', 10, 6 );
 
 
+
 // Slideshow shortcode
 	add_shortcode('slideshow','shortcode_slideshow');
 	add_shortcode('slide','shortcode_slide');
 	function shortcode_slideshow( $atts, $content = null ) {
 			wp_enqueue_script('jcycle2');
-			extract( shortcode_atts( array(
+			$attr = shortcode_atts( array(
 				'time' => '4000'
-			), $atts ) );
-			$output = '<div class="cycle-slideshow" style="position:relative;" data-cycle-slides=".cycle-slide" data-timeout="' . $time . '" >';
-				$output .= apply_filters( 'the_content' , $content);
+			), $atts );
+			$output = '<div class="cycle-slideshow" style="position:relative;" data-cycle-slides=".cycle-slide" data-timeout="' . $attr['time'] . '" >';
+				$output .= do_shortcode($content);
 			$output .= '</div>';
 			return $output;
 
 	}
 	function shortcode_slide( $atts, $content = null ) {
-			extract( shortcode_atts( array(
-				'img' => ''
-			), $atts ) );
+		$attr = shortcode_atts( array(
+			'img' => '',
+			'style' => '',
+			'autop' => 'true'
+		), $atts );
+		// SLIDE
+		if ( $attr['img'] != '' ) {
+			$background_image = 'background-image:url(\'' . $attr['img'] . '\');';
+		}
 
-			// SLIDE
-				if ( $img != '' ) {
-					$background_image = 'background-image:url(\'' . $img . '\');';
-				}
-				$output = '<div class="cycle-slide slide-' . get_the_ID() . '" style="position:absolute;' . $background_image . '">';
-					$output .= apply_filters( 'the_content' , $content);
+		$output = '<div class="cycle-slide slide-' . get_the_ID() . '" style="position:absolute;' . $background_image . ' ' . $attr['style'] .'">';
+			$output .= '<div class="cycle-content">';
+				$output .= '<div class="page-wrapper">';
+					if ( $attr['autop'] == 'true' ) {
+						$output .= wpautop(apply_filters( 'the_content' , $content));
+					} else {
+						$output .= apply_filters( 'the_content' , $content);
+					}
 				$output .= '</div>';
-			return $output;
-	}
+			$output .= '</div>';
+		$output .= '</div>';
+		return $output;
+	} 
+
+
 ?>
