@@ -1,6 +1,6 @@
 <?php
 /*
-	Plugin Name: Cycle 2 Slideshow
+	Plugin Name: D4 Slideshow
 	Plugin URI: https://github.com/d4advancedmedia/Slideshow
 	GitHub Theme URI: https://github.com/d4advancedmedia/Slideshow
 	GitHub Branch: master
