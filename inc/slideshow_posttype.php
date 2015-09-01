@@ -20,7 +20,7 @@
 			),
 			'description' => '',
 			'menu_icon' => 'dashicons-images-alt2',
-			'public' => true,
+			'public' => false,
 			'exclude_from_search' => true,
 			'show_in_nav_menus' => false,
 			'supports' => array(
@@ -90,7 +90,7 @@
 		}
 		return $new;
 	}
-	add_action( 'manage_skivvy_slider_posts_custom_column', 'skivvy_slider_AddThumbValue', 10, 6 );
+	add_action( 'manage_skivvy_slider_posts_custom_column', 'd4slideshow_slider_AddThumbValue', 10, 6 );
 	function d4slideshow_slider_AddThumbValue($column_name, $post_id) {
 
 		if ( 'slider_thumbnail' == $column_name ) :
