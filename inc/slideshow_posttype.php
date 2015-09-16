@@ -2,7 +2,7 @@
 
 
 // Register Post type
-	add_action('init', 'register_d4slideshow_posttype');
+	
 	function register_d4slideshow_posttype() {
 
 		register_post_type(
@@ -42,7 +42,7 @@
 			#'can_export' => true,
 		) );
 
-	}
+	} add_action('init', 'register_d4slideshow_posttype');
 
 //		Remove Auto p for sliders
 	function xautop_d4slideshow( $content ) {
