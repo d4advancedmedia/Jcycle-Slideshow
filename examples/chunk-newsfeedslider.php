@@ -12,7 +12,7 @@
 	$slidequery = new WP_Query(array(
 				// 'post_type' => 'skivvy_slider',
 				'posts_per_page' => 4,
-				'order' => 'ASC',
+				'order' => 'DESC',
 				'orderby' => 'date'
 	));
 	$slideArray = array();
