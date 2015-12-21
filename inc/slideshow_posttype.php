@@ -1,48 +1,45 @@
-<?php #1Sep15
-
+<?php #21Dec15
 
 // Register Post type
-	
 	function register_d4slideshow_posttype() {
+	register_post_type(
+		'skivvy_slider',
+		array( 'labels' => array(
+				'name' => 'Slides',
+				'singular_name' => 'Slide',
+				'menu_name' => 'Slideshow',
+				'all_items' => 'Slides',
+				'add_new' => 'New Slide',
+				'add_new_item' => 'New Slide',
+				'edit_item' => 'Edit Slide',
+				'new_item' => 'New Slide',
+				'view_item' => 'View Slide',
+		),
+		'description' => '',
+		'menu_icon' => 'dashicons-images-alt2',
+		'public' => true,
+		'exclude_from_search' => true,
+		'show_in_nav_menus' => false,
+		'supports' => array(
+			'title',
+			'editor',
+			#'author',
+			'thumbnail',
+			#'excerpt',
+			#'trackbacks',
+			'custom-fields',
+			#'comments',
+			'revisions',
+			#'page-attributes',
+			#'post-formats'
+		),
+		#'taxonomies' => '',
+		#'has_archive' => '',
+		#'rewrite' => false,
+		#'can_export' => true,
+	) );
 
-		register_post_type(
-			'skivvy_slider',
-			array( 'labels' => array(
-					'name' => 'Slides',
-					'singular_name' => 'Slide',
-					'menu_name' => 'Slideshow',
-					'all_items' => 'Slides',
-					'add_new' => 'New Slide',
-					'add_new_item' => 'New Slide',
-					'edit_item' => 'Edit Slide',
-					'new_item' => 'New Slide',
-					'view_item' => 'View Slide',
-			),
-			'description' => '',
-			'menu_icon' => 'dashicons-images-alt2',
-			'public' => false,
-			'exclude_from_search' => true,
-			'show_in_nav_menus' => false,
-			'supports' => array(
-				'title',
-				'editor',
-				#'author',
-				'thumbnail',
-				#'excerpt',
-				#'trackbacks',
-				'custom-fields',
-				#'comments',
-				'revisions',
-				#'page-attributes',
-				#'post-formats'
-			),
-			#'taxonomies' => '',
-			#'has_archive' => '',
-			#'rewrite' => false,
-			#'can_export' => true,
-		) );
-
-	} add_action('init', 'register_d4slideshow_posttype');
+} add_action('init', 'register_d4slideshow_posttype');
 
 //		Remove Auto p for sliders
 	function xautop_d4slideshow( $content ) {
